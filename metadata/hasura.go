@@ -182,7 +182,7 @@ func (h *Hasura) InitializeFile(
 ) *controller.APIError {
 	var result struct {
 		InsertFiles struct {
-			AffectedRows int `graphql:"affected_rows"`
+			AffectedRows int `graphql:"affectedRows"`
 		} `graphql:"insertFiles"`
 	}
 
@@ -197,7 +197,8 @@ func (h *Hasura) InitializeFile(
 	client := h.client.WithRequestModifier(h.authorizer(headers))
 	if err := client.Exec(
 		ctx,
-		`mutation InitializeFile($id: uuid!, $name: String!, $bucketId: String!, $mimeType: String!, $size: Int!) {insertFiles(objects: {id: $id, bucketId: $bucketId, mimeType: $mimeType, name: $name, size: $size}) {affected_rows}}`, //nolint: lll
+		`mutation InitializeFile($id: uuid!, $name: String!, $bucketId: String!, $mimeType: String!, $size: Int!) {insertFiles(objects: {id: $id, bucketId: $bucketId, mimeType: $mimeType, name: $name, 
+size: $size}) {affectedRows}}`, //nolint: lll
 		&result,
 		variables,
 	); err != nil {
